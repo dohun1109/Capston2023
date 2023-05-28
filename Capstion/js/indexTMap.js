@@ -1,5 +1,5 @@
-// 위치 정보 받아오기
-function getLocation() {
+// 위치 정보 및 카카오 맵 초기화
+function initializeMap() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
     } else {
@@ -7,43 +7,40 @@ function getLocation() {
     }
 }
 
-// 위치 정보 출력 및 PHP로 전송
+// 위치 정보 획득 후 카카오 맵 실행
 function showPosition(position) {
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
 
-    $.post("../php/index_Tmap_data.php", {
-        latitude: latitude,
-        longitude: longitude
-    }, function (data) {
-        console.log(data);
+    var container = document.getElementById('map');
+    var options = {
+        center: new kakao.maps.LatLng(latitude, longitude),
+        level: 2
+    };
+
+    var map = new kakao.maps.Map(container, options);
+
+    var markerPosition = new kakao.maps.LatLng(latitude, longitude);
+    var marker = new kakao.maps.Marker({
+        position: markerPosition
     });
+    marker.setMap(map);
+
+    var iwContent = '<div style="padding:5px;">현재 나의 위치!!! </div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+        iwPosition = new kakao.maps.LatLng(33.450701, 126.570667); //인포윈도우 표시 위치입니다
+
+// 인포윈도우를 생성합니다
+    var infowindow = new kakao.maps.InfoWindow({
+        position : iwPosition,
+        content : iwContent
+    });
+
+// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+    infowindow.open(map, marker);
 }
 
-// 페이지 로딩 시 자동으로 위치 정보 받아오기
-window.onload = function() {
-    getLocation();
-};
 
-// TMap API 키
-var appKey = "2Jp8jONDJr6WTQpbipoHt5hqHcZre40UagYSbMww";
 
-// TMap API 초기화
-var tmap = new Tmapv2({
-    key: appKey,
-    baseUrl: "https://apis.openapi.sk.com/tmap"
-});
 
-// 지도 생성
-var map = new Tmapv2.Map("map", {
-    center: new Tmapv2.LatLng(latitude, longitude),
-    width: "100%",
-    height: "400px",
-    zoom: 15
-});
-
-// 마커 생성
-var marker = new Tmapv2.Marker({
-    position: new Tmapv2.LatLng(latitude, longitude),
-    map: map
-});
+// 페이지 로드 시 카카오 맵 초기화 실행
+window.onload = initializeMap;

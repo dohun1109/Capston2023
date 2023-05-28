@@ -8,16 +8,18 @@
     <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=6d59f528d7b8ee26eb605596fe190b25&libraries=services"></script>
+    <script src="js/indexTMap.js"></script>
     <link rel="stylesheet" href="css/indexHeader.css">
-    <script defer src="js/indexTMap.js"></script>   <!-- 자바스크립트 파일 링크 -->
-    <script src="php/index_Tmap_data.php"></script> <!-- PHP 파일 링크 -->
+
+
+
 </head>
 <body>
 <div data-role="page">
     <div data-role="header" class="ui-header" >
         <a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
 
-        <input id="search-input" class="search-input" type="search" placeholder="정류장을 검색해 주세요.">
 
         <a href="#nav_login" data-icon="lock" data-iconpos="notext">Login</a>
 
@@ -32,7 +34,7 @@
             </div>
         </div>
         <ul data-role="listview" class="menu-list">
-            <li><a href="#">경로 검색</a></li>
+            <li><a href="test.html">경로 검색</a></li>
             <li><a href="#">주변 정류장 목록</a></li>
             <li><a href="#">설정</a></li>
         </ul>
@@ -44,7 +46,7 @@
             <li><a href="#">회원가입</a></li>
         </ul>
     </div>
-    <div role="main" class="ui-content">
+    <div role="main" class="ui-content" id="map_div" onload="window.onload()">
         <!-- 웹앱의 본문 내용 -->
         <div id="map"></div>
     </div>
