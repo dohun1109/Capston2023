@@ -1,0 +1,20 @@
+.logo {     
+    margin-top: 40px;
+    margin-bottom: 20px;
+    text-align: center; /* 가운데 정렬을 위한 속성 추가 */
+}
+/* #login_try{
+    background-color: skyblue;
+    border-color: transparent;
+    color: white;
+}
+#find_id{
+    background-color: greenyellow;
+    border-color: transparent;
+    color: white;
+}
+#find_pass{
+    background-color: blu;
+    border-color: transparent;
+    color: white;
+} */
