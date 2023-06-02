@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>회원가입 페이지</title>
+    <style>
+        /* CSS 스타일링 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .toggle-label {
+            font-weight: bold;
+        }
+        .driver-info {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<h1>회원가입</h1>
+
+<div class="form-group">
+    <label for="name">이름:</label>
+    <input type="text" id="name" name="name" required>
+</div>
+
+<div class="form-group">
+    <label for="email">이메일 주소:</label>
+    <input type="email" id="email" name="email" required>
+</div>
+
+<div class="form-group">
+    <label for="password">비밀번호:</label>
+    <input type="password" id="password" name="password" required>
+</div>
+
+<div class="form-group">
+    <label for="phone">전화번호:</label>
+    <input type="tel" id="phone" name="phone" required>
+</div>
+
+<div class="form-group">
+    <label for="dob">생년월일:</label>
+    <input type="date" id="dob" name="dob" required>
+</div>
+
+<div class="form-group">
+    <label class="toggle-label">사용자 유형:</label>
+    <label>
+        <input type="radio" name="userType" value="general" checked> 일반 교통약자
+    </label>
+    <label>
+        <input type="radio" name="userType" value="driver"> 버스기사
+    </label>
+</div>
+
+<div class="form-group driver-info">
+    <label for="licensePhoto">버스기사 자격증 사진 업로드:</label>
+    <input type="file" id="licensePhoto" name="licensePhoto">
+</div>
+
+<div class="form-group">
+    <label>
+        <input type="checkbox" required> 이용약관에 동의합니다.
+    </label>
+</div>
+
+<button type="submit">가입하기</button>
+
+<script>
+    // JavaScript 코드
+    const userTypeRadio = document.querySelectorAll('input[name="userType"]');
+    const driverInfo = document.querySelector('.driver-info');
+
+    // 토글 버튼 이벤트 리스너
+    userTypeRadio.forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            if (radio.value === 'driver') {
+                driverInfo.style.display = 'block';
+            } else {
+                driverInfo.style.display = 'none';
+            }
+        });
+    });
+</script>
+</body>
+</html>

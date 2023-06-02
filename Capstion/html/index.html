@@ -1,25 +1,31 @@
-<?php
-    
-?>
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=6d59f528d7b8ee26eb605596fe190b25&libraries=services"></script>
-    <script src="js/indexTMap.js"></script>
-    <link rel="stylesheet" href="css/indexHeader.css">
+    <script src="../js/indexTMap.js"></script>
+
+
+    <link rel="stylesheet" href="../css/indexHeader.css">
 
 
 
 </head>
 <body>
-<div data-role="page">
+<div data-role="page" id="page1">
     <div data-role="header" class="ui-header" >
         <a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
-
+        <div>
+            <input type="text" value="정류장 입력.">
+        </div>
 
         <a href="#nav_login" data-icon="lock" data-iconpos="notext">Login</a>
 
@@ -34,8 +40,8 @@
             </div>
         </div>
         <ul data-role="listview" class="menu-list">
-            <li><a href="test.html">경로 검색</a></li>
-            <li><a href="#">주변 정류장 목록</a></li>
+            <li><a href="geolocation.html" onclick="deleteMap()" data-ajax="false">경로 검색</a></li>
+            <li><a href="sample.html" id="change2"  data-ajax="false">주변 정류장 목록</a></li>
             <li><a href="#">설정</a></li>
         </ul>
     </div>
@@ -49,6 +55,12 @@
     <div role="main" class="ui-content" id="map_div" onload="window.onload()">
         <!-- 웹앱의 본문 내용 -->
         <div id="map"></div>
+        <div id="location"></div>
+    </div>
+</div>
+<div data-role="page" id="page2">
+    <div data-role="content">
+
     </div>
 </div>
 </body>
