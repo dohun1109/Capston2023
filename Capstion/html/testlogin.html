@@ -1,86 +1,252 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입 페이지</title>
+    <link
+            rel="stylesheet"
+            href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" href="css/indexHeader.css">
+    <script defer="defer" src="js/indexTMap.js"></script>
+    <!-- 자바스크립트 파일 링크 -->
+    <script src="php/index_Tmap_data.php"></script>
+    <!-- PHP 파일 링크 -->
+    <!-- <link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#human_register_form').show();
+            $('#driver_register_form').hide();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // 카테고리 선택 시 해당 회원가입 폼을 보여줍니다.
+            $('#category').change(function () {
+                var selectedCategory = $(this).val();
+                if (selectedCategory === '버스기사') {
+                    $('#driver_register_form').show();
+                    $('#human_register_form').hide();
+                } else if (selectedCategory === '교통약자') {
+                    $('#driver_register_form').hide();
+                    $('#human_register_form').show();
+                } else {
+                    // Show the "교통약자" registration form by default
+                    $('#driver_register_form').hide();
+                    $('#human_register_form').show();
+                }
+            });
+        });
+    </script>
+    <!-- CSS -->
     <style>
-        /* CSS 스타일링 */
-        .form-group {
-            margin-bottom: 20px;
+        .h4 {
+            text-align: center;
         }
-        .toggle-label {
-            font-weight: bold;
+
+        .center-register {
+            text-align: center;
+            margin-top: auto;
         }
-        .driver-info {
-            display: none;
+
+        .asd {
+            text-align: center;
+        }
+        .footer {
+            text-align: center;
         }
     </style>
+
 </head>
 <body>
-<h1>회원가입</h1>
+<div data-role="page">
+    <div data-role="header" data-position="fixed">
+        <h4 class="center-text">저상버스 예약시스템</h4>
+        <a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
+        <input
+                id="search-input"
+                class="search-input"
+                type="search"
+                placeholder="정류장을 검색해 주세요.">
+        <a href="#nav_login" data-icon="lock" data-iconpos="notext">Login</a>
+    </div>
+    <div
+            data-role="panel"
+            id="nav-panel"
+            data-position="left"
+            data-display="overlay">
+        <div class="profile-wrapper">
+            <div class="profile-circle"></div>
+            <div class="profile-info">
+                <h2>홍길동</h2>
+                <p>교통 약자</p>
+            </div>
+        </div>
+        <ul data-role="listview" class="menu-list">
+            <li>
+                <a id="home_btn">홈 화면</a>
+            </li>
+            <li>
+                <a href="#">경로 검색</a>
+            </li>
+            <li>
+                <a href="#">주변 정류장 목록</a>
+            </li>
+            <li>
+                <a href="#">설정</a>
+            </li>
+            <a
+                    href="#page1"
+                    data-role="button"
+                    data-rel="close"
+                    data-inline="true"
+                    id="exit_brn2"
+                    style="position: fixed; bottom: 10px; right: 10px;">패널 종료</a>
+        </ul>
+    </div>
+    <div
+            data-role="panel"
+            id="nav_login"
+            data-position="right"
+            data-display="overlay">
+        <ul data-role="listview">
+            <li>
+                <a href="#">로그인</a>
+            </li>
+            <li>
+                <a href="index.php">통합 회원가입</a>
+            </li>
+            <a
+                    href="#page1"
+                    data-role="button"
+                    data-rel="close"
+                    data-inline="true"
+                    id="exit_brn2"
+                    style="position: fixed; bottom: 10px; right: 10px;">패널 종료</a>
+        </ul>
+    </div>
+    <div data-role="content">
+        <hr>
+        <h1 class="center-register">통합 회원가입</h1>
+        <hr>
 
-<div class="form-group">
-    <label for="name">이름:</label>
-    <input type="text" id="name" name="name" required>
+        <div class="form-group">
+            <label for="" class="">회원 유형</label>
+            <select class="form-control" id="category" name="" required="required">
+                <option value="교통약자">교통약자</option>
+                <option value="버스기사">버스기사</option>
+            </select>
+        </div>
+        <!-- 교통약자 회원가입 폼 -->
+        <form action="dbtest.php" method="POST" id="human_register_form">
+            <label for="">아이디</label>
+            <input
+                    type="text"
+                    name="human_id"
+                    id="human_id"
+                    placeholder="아이디는 4자 이상 입력해주세요.">
+
+            <label for="">비밀번호</label>
+            <input
+                    type="password"
+                    name="human_password"
+                    id="human_password"
+                    placeholder="영문,숫자 조합 10자 이상 입력해주세요.">
+
+            <label for="">비밀번호 확인</label>
+            <input
+                    type="password"
+                    name="human_passwordCK"
+                    id="human_passwordCK"
+                    placeholder="비밀번호를 한번 더 입력해주세요.">
+
+            <label for="">이름</label>
+            <input type="text" name="human_name" id="human_name" placeholder="이름">
+
+            <label for="">전화번호</label>
+            <input type="text" name="human_phone" id="" placeholder="전화번호">
+
+            <label for="">생년월일</label>
+            <input type="date" name="human_date" id="">
+
+            <select class="form-control" id="human_address" name="human_address">
+                <option value="">거주지역을 선택해주세요.</option>
+                <option value="서울">서울</option>
+                <option value="경기">경기</option>
+                <option value="인천">인천</option>
+                <option value="부산">부산</option>
+                <option value="대구">대구</option>
+                <!-- 다른 거주지역 옵션을 추가할 수 있습니다. -->
+            </select>
+            <label>
+                <input type="checkbox" required="required">
+                이용약관에 동의합니다.
+            </label>
+            <input type="submit" value="회원가입">
+        </form>
+        <!-- 운전기사 회원가입 폼 -->
+        <form action="dbtest.php" method="POST" id="driver_register_form">
+            <label for="">아이디</label>
+            <input type="text" name="driver_id" id="" placeholder="아이디는 4자 이상 입력해주세요.">
+
+            <label for="">비밀번호</label>
+            <input
+                    type="password"
+                    name="driver_password"
+                    id=""
+                    placeholder="영문,숫자 조합 10자 이상 입력해주세요.">
+
+            <label for="">비밀번호 확인</label>
+            <input
+                    type="password"
+                    name="driver_passwordCK"
+                    id=""
+                    placeholder="비밀번호를 한번 더 입력해주세요.">
+
+            <label for="">이름</label>
+            <input type="text" name="driver_name" id="" placeholder="이름">
+
+            <label for="">전화번호</label>
+            <input type="text" name="driver_phone" id="" placeholder="전화번호">
+
+            <label for="">생년월일</label>
+            <input type="date" name="driver_date" id="">
+
+            <label for="driver-license-image">운전면허증 사진</label>
+            <input
+                    type="file"
+                    class="form-control-file"
+                    id="driver-license-image"
+                    name="driver-license-image"
+                    accept="image/*">
+            <label for="driver-profile-image">프로필 사진</label>
+            <input
+                    type="file"
+                    class="form-control-file"
+                    id="driver-profile-image"
+                    name="driver-profile-image"
+                    accept="image/*">
+
+            <label>
+                <input type="checkbox" required="required">
+                이용약관에 동의합니다.
+            </label>
+            <input type="submit" value="회원가입">
+        </form>
+    </div>
+    <!-- 회원가입 양식 끝 -->
+    <div data-role="footer" data-position="fixed" class="footer">만든사람: 세영이</div>
 </div>
-
-<div class="form-group">
-    <label for="email">이메일 주소:</label>
-    <input type="email" id="email" name="email" required>
-</div>
-
-<div class="form-group">
-    <label for="password">비밀번호:</label>
-    <input type="password" id="password" name="password" required>
-</div>
-
-<div class="form-group">
-    <label for="phone">전화번호:</label>
-    <input type="tel" id="phone" name="phone" required>
-</div>
-
-<div class="form-group">
-    <label for="dob">생년월일:</label>
-    <input type="date" id="dob" name="dob" required>
-</div>
-
-<div class="form-group">
-    <label class="toggle-label">사용자 유형:</label>
-    <label>
-        <input type="radio" name="userType" value="general" checked> 일반 교통약자
-    </label>
-    <label>
-        <input type="radio" name="userType" value="driver"> 버스기사
-    </label>
-</div>
-
-<div class="form-group driver-info">
-    <label for="licensePhoto">버스기사 자격증 사진 업로드:</label>
-    <input type="file" id="licensePhoto" name="licensePhoto">
-</div>
-
-<div class="form-group">
-    <label>
-        <input type="checkbox" required> 이용약관에 동의합니다.
-    </label>
-</div>
-
-<button type="submit">가입하기</button>
-
-<script>
-    // JavaScript 코드
-    const userTypeRadio = document.querySelectorAll('input[name="userType"]');
-    const driverInfo = document.querySelector('.driver-info');
-
-    // 토글 버튼 이벤트 리스너
-    userTypeRadio.forEach(function(radio) {
-        radio.addEventListener('change', function() {
-            if (radio.value === 'driver') {
-                driverInfo.style.display = 'block';
-            } else {
-                driverInfo.style.display = 'none';
-            }
-        });
-    });
-</script>
 </body>
 </html>

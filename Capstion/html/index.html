@@ -15,6 +15,23 @@
 
 
     <link rel="stylesheet" href="../css/indexHeader.css">
+    <style>
+        .h4 {
+            text-align: center;
+        }
+
+        .center-register {
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .asd {
+            text-align: center;
+        }
+        .footer {
+            text-align: center;
+        }
+    </style>
 
 
 
@@ -22,11 +39,13 @@
 <body>
 <div data-role="page" id="page1">
     <div data-role="header" class="ui-header" >
+        <h4 class="center-text">저상버스 예약시스템</h4>
         <a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
-        <div>
-            <input type="text" value="정류장 입력.">
-        </div>
-
+        <input
+                id="search-input"
+                class="search-input"
+                type="search"
+                placeholder="정류장을 검색해 주세요.">
         <a href="#nav_login" data-icon="lock" data-iconpos="notext">Login</a>
 
     </div>

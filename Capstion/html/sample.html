@@ -57,34 +57,36 @@
 
             // 테이블에 정류소 정보 표시
             items.forEach(function (item) {
-                var Item = item;
-                var nodenm = item.nodenm;
-                var distance = item.distance.toFixed(2) + 'm';
-                var nodeid = item.nodeid;
-                const stationNameLink = document.createElement('a');
+                if (item.nodeid.startsWith("DGB")) { // DGB로 시작하는 데이터만 선택
+                    var Item = item;
+                    var nodenm = item.nodenm;
+                    var distance = item.distance.toFixed(2) + 'm';
+                    var nodeid = item.nodeid;
+                    const stationNameLink = document.createElement('a');
 
-                var row = document.createElement('tr');
-                var cell1 = document.createElement('td');
-                var cell2 = document.createElement('td');
-                var cell3 = document.createElement('td');
+                    var row = document.createElement('tr');
+                    var cell1 = document.createElement('td');
+                    var cell2 = document.createElement('td');
+                    var cell3 = document.createElement('td');
 
-                stationNameLink.textContent = nodenm;
-                stationNameLink.href = "#1"
-                stationNameLink.addEventListener('click', function () {
-                    // document.getElementById('test').innerText = Item.nodeid;
-                    var NodeId = Item.nodeid;
-                    lowbusStation(NodeId);
-                });
+                    stationNameLink.textContent = nodenm;
+                    stationNameLink.href = "#1"
+                    stationNameLink.addEventListener('click', function () {
+                        // document.getElementById('test').innerText = Item.nodeid;
+                        var NodeId = Item.nodeid;
+                        lowbusStation(NodeId);
+                    });
 
 
-                cell1.appendChild(stationNameLink);
-                cell2.textContent = distance;
-                cell3.textContent = nodeid;
+                    cell1.appendChild(stationNameLink);
+                    cell2.textContent = distance;
+                    cell3.textContent = nodeid;
 
-                row.appendChild(cell1);
-                row.appendChild(cell2);
-                row.appendChild(cell3);
-                tbody.appendChild(row);
+                    row.appendChild(cell1);
+                    row.appendChild(cell2);
+                    row.appendChild(cell3);
+                    tbody.appendChild(row);
+                }
             });
         }
     }
@@ -96,8 +98,12 @@
         var thead = document.getElementById('tableHead');
 
         var th = document.createElement('th');
-        th.textContent = "도착 예정 시간";
+        th.textContent = "노선번호";
         thead.appendChild(th);
+
+        var th2 = document.createElement('th');
+        th2.textContent = "도착 예정 시간";
+        thead.appendChild(th2);
 
         var nodeId = NodeId;
         var xhr2 = new XMLHttpRequest();
@@ -135,11 +141,11 @@
         var tbody = document.getElementById('busStationBody');
         if (Array.isArray(parseData.response.body.items.item)) {
             var items = parseData.response.body.items.item;
-            items = items.filter(function(item) {
+            items = items.filter(function (item) {
                 return item.vehicletp === '저상버스';
             });
             // Convert time from seconds to minutes
-            items.forEach(function(item) {
+            items.forEach(function (item) {
                 item.arrtime = Math.floor(item.arrtime / 60); // Convert seconds to minutes
             });
             // 테이블에 정류소 정보 표시
@@ -148,6 +154,7 @@
                 var nodenm = item.nodenm;
                 var vehicletp = item.vehicletp;
                 var arrprevstationcnt = item.arrprevstationcnt;
+                var routeno = item.routeno;
                 var arrtime = item.arrtime;
 
 
@@ -156,17 +163,21 @@
                 var cell2 = document.createElement('td');
                 var cell3 = document.createElement('td');
                 var cell4 = document.createElement('td');
+                var cell5 = document.createElement('td');
 
 
                 cell1.textContent = nodenm;
                 cell2.textContent = vehicletp;
                 cell3.textContent = arrprevstationcnt;
-                cell4.textContent = arrtime + "분";
+                cell4.textContent = routeno;
+                cell5.textContent = arrtime + "분";
+
 
                 row.appendChild(cell1);
                 row.appendChild(cell2);
                 row.appendChild(cell3);
                 row.appendChild(cell4);
+                row.appendChild(cell5);
                 tbody.appendChild(row);
             });
 
