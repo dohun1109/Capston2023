@@ -47,7 +47,7 @@ function showPosition(position) {
 }
 // function loadContent() {
 //     var xhr = new XMLHttpRequest();
-//     xhr.open("GET", "../html/sample.html", true); // "external.html"을 외부 HTML 파일의 경로로 대체하세요.
+//     xhr.open("GET", "../html/busStation.html", true); // "external.html"을 외부 HTML 파일의 경로로 대체하세요.
 //     xhr.onreadystatechange = function () {
 //         if (xhr.readyState === 4 && xhr.status === 200) {
 //             // 내용을 지정한 div에 삽입합니다.
