@@ -4,7 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <title>정류장 검색</title>
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=6d59f528d7b8ee26eb605596fe190b25&libraries=services"></script>
     <style>
+        :root {
+            --font-size-lg: 5vw;
+            --font-size-md: 4vw;
+            --font-size-sm: 3vw;
+        }
+
+        h1 {
+            font-size: var(--font-size-lg);
+        }
+
+        h2 {
+            font-size: var(--font-size-md);
+        }
+
+        p {
+            font-size: var(--font-size-sm);
+        }
+
+        a {
+            font-size: var(--font-size-sm);
+        }
+
+        blockquote {
+            font-size: var(--font-size-md);
+        }
+
+        .hero {
+            font-size: var(--font-size-lg);
+        }
+
         table {
             border-collapse: collapse;
         }
@@ -13,6 +48,23 @@
         td {
             border: 1px solid black;
             padding: 8px;
+        }
+
+        .h4 {
+            text-align: center;
+        }
+
+        .center-register {
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .asd {
+            text-align: center;
+        }
+
+        .footer {
+            text-align: center;
         }
     </style>
 
@@ -196,6 +248,7 @@
             var tbody = document.getElementById('busStationBody');
             if (Array.isArray(parseData.response.body.items.item)) {
                 var items = parseData.response.body.items.item;
+
                 items = items.filter(function (item) {
                     return item.vehicletp === '저상버스';
                 });
@@ -231,7 +284,8 @@
                     endStationLink.addEventListener('click', function () {
                         var routeId = item.routeid;
                         var nodeNm = item.nodenm;
-                        endStation(routeId,nodeNm);
+                        var routeno = item.routeno;
+                        endStation(routeId, nodeNm, routeno);
                     });
 
 
@@ -259,9 +313,9 @@
         //---------------------------------저상버스 도착 정보 조회 End---------------------------------------
 
         //---------------------------------노선 경로 도착지 리스트  조회 End---------------------------------------
-        function endStation(routeId,nodeNm) {
+        function endStation(routeId, nodeNm, routeno) {
             document.getElementById('busStationBody').innerHTML = '';
-            document.getElementById('busStationHead').innerHTML='';
+            document.getElementById('busStationHead').innerHTML = '';
 
 
             var thead = document.getElementById('busStationHead');
@@ -283,12 +337,12 @@
             ttr.appendChild(th4);
 
 
-
             thead.appendChild(ttr);
 
 
             var Routeid = routeId;
             var Nodenm = nodeNm;
+            var routeno = routeno;
             var xhr3 = new XMLHttpRequest();
             var url3 = 'https://apis.data.go.kr/1613000/BusRouteInfoInqireService/getRouteAcctoThrghSttnList'; /*URL*/
 
@@ -305,11 +359,9 @@
                     var responseData = this.responseText;
 
                     responseData = responseData.replace(/(<([^>]+)>)/ig, ""); // 응답 데이터에서 HTML 태그 제거
+
                     var parseData = JSON.parse(responseData);
-
-
-
-                    endStationParse(parseData,Nodenm);
+                    endStationParse(parseData, Nodenm, routeno);
 
 
                 }
@@ -319,10 +371,11 @@
             xhr3.send();
         }
 
-        function endStationParse(parseData,Nodenm) {
+        function endStationParse(parseData, Nodenm, routeno) {
             var tbody = document.getElementById('busStationBody');
 
-
+            var startNode = Nodenm;
+            var routeNo = routeno;
             var numCnt = 0;
             if (Array.isArray(parseData.response.body.items.item)) {
                 numCnt++;
@@ -333,9 +386,8 @@
                 });
 
 
-
                 var filteredItems = [];
-                items.forEach(function(item) {
+                items.forEach(function (item) {
                     if (item.updowncd === 1) {
                         item.updowncd = '↑'; // 화살표 위표시로 변경
                         if (startIndex !== -1) {
@@ -370,7 +422,8 @@
                     endStationLink.textContent = "선택";
                     endStationLink.href = "#3"
                     endStationLink.addEventListener('click', function () {
-
+                        var endNode = item.nodenm;
+                        resultPage(startNode, endNode, routeNo);
                     });
 
 
@@ -386,12 +439,87 @@
                     row.appendChild(cell4);
 
 
-
                     tbody.appendChild(row);
                 });
 
 
             }
+        }
+
+        //-------------------------Result Page --------------------
+
+        function resultPage(startNode, endNode, routeNo) {
+            document.getElementById('busStationBody').innerHTML = '';
+            document.getElementById('busStationHead').innerHTML = '';
+
+            var StartNode = startNode;
+            var EndNode = endNode;
+            var RouteNo = routeNo;
+
+
+            var tbody = document.getElementById('busStationBody');
+            var thead = document.getElementById('busStationHead');
+
+            var ttr = document.createElement('tr');
+            var th1 = document.createElement('th');
+            var th2 = document.createElement('th');
+            var th3 = document.createElement('th');
+            var th4 = document.createElement('th');
+
+            th1.textContent = "출발지";
+            th2.textContent = "도착지";
+            th3.textContent = "버스 노선";
+            th4.textContent = "예약 하기";
+
+            ttr.appendChild(th1);
+            ttr.appendChild(th2);
+            ttr.appendChild(th3);
+            ttr.appendChild(th4);
+
+            thead.appendChild(ttr);
+
+
+            var reservationData = document.createElement('Button');
+
+
+            var row = document.createElement('tr');
+            var cell1 = document.createElement('td');
+            var cell2 = document.createElement('td');
+            var cell3 = document.createElement('td');
+            var cell4 = document.createElement('td');
+
+
+            reservationData.textContent = "예약하기";
+            reservationData.href = "#4"
+            reservationData.addEventListener('click', function () {
+
+                makeReservation(StartNode, EndNode, RouteNo);
+            });
+
+            cell1.textContent = StartNode;
+            cell2.textContent = EndNode;
+            cell3.textContent = RouteNo;
+            cell4.appendChild(reservationData);
+
+            row.appendChild(cell1);
+            row.appendChild(cell2);
+            row.appendChild(cell3);
+            row.appendChild(cell4);
+
+            tbody.appendChild(row);
+
+        }
+
+        function makeReservation(StartNode, EndNode, RouteNo) {
+            const socket = io();
+            const reservation = {
+                Start: StartNode,
+                End: EndNode,
+                busNum: RouteNo
+            };
+
+            socket.emit('reservation',reservation);
+
         }
 
 
@@ -400,18 +528,62 @@
 </head>
 
 <body>
-<table id="busStationTable">
-    <thead  id="busStationHead">
-    <tr id="tableHead">
-        <th id='nodenm'>정류소 명</th>
-        <th id='meter'>거리</th>
-        <th id='nodeId'>nodeid</th>
-        <th id="selectNm">정류소 선택</th>
-    </tr>
-    </thead>
-    <tbody id="busStationBody"></tbody>
+<div data-role="page" id="page1">
+    <div data-role="header" class="ui-header">
+        <h4 class="center-text">저상버스 예약시스템</h4>
+        <a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
+        <input
+                id="search-input"
+                class="search-input"
+                type="search"
+                placeholder="정류장을 검색해 주세요.">
+        <a href="#nav_login" data-icon="lock" data-iconpos="notext">Login</a>
 
-</table>
+    </div>
+
+    <div data-role="panel" id="nav-panel" data-position="left" data-display="overlay">
+        <div class="profile-wrapper">
+            <div class="profile-circle"></div>
+            <div class="profile-info">
+                <h2>홍길동 </h2>
+                <p>교통 약자 </p>
+            </div>
+        </div>
+        <ul data-role="listview" class="menu-list">
+            <li><a href="geolocation.html" onclick="deleteMap()" data-ajax="false">경로 검색</a></li>
+            <li><a href="busStation.html" id="change2" data-ajax="false">주변 정류장 목록</a></li>
+            <li><a href="#">설정</a></li>
+        </ul>
+    </div>
+
+    <div data-role="panel" id="nav_login" data-position="right" data-display="overlay">
+        <ul data-role="listview">
+            <li><a href="#">로그인</a></li>
+            <li><a href="#">회원가입</a></li>
+        </ul>
+    </div>
+    <div role="main" class="ui-content">
+        <!-- 웹앱의 본문 내용 -->
+        <table id="busStationTable">
+            <thead id="busStationHead">
+            <tr id="tableHead">
+                <th id='nodenm'>정류소 명</th>
+                <th id='meter'>거리</th>
+                <th id='nodeId'>nodeid</th>
+                <th id="selectNm">정류소 선택</th>
+            </tr>
+            </thead>
+            <tbody id="busStationBody"></tbody>
+
+        </table>
+    </div>
+</div>
+<div data-role="page" id="page2">
+    <div data-role="content">
+
+    </div>
+</div>
+
 
 <div id="test"></div>
 
