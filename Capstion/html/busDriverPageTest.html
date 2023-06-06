@@ -3,24 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Bus Driver Page</title>
-</head>
-<body>
-<h1>Bus Driver Page</h1>
-<div id="reservationList"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
 
 <script src="server.js"></script>
 <script>
-    // WebSocket 클라이언트 생성
-    const socket = io();
 
-    // 예약 정보 수신 처리
-    socket.on('reservation', (data) => {
-        // 받은 예약 정보를 파싱하고 알림을 표시하는 로직을 구현
-        const reservationList = document.getElementById('reservationList');
-        const reservationElement = document.createElement('p');
-        reservationElement.textContent = `출발지: ${data.Start}, 도착지: ${data.End}, 버스 번호: ${data.busNum}`;
-        reservationList.appendChild(reservationElement);
-    });
+    function resultData(){
+        // WebSocket 클라이언트 생성
+        const socket = io();
+
+        // 예약 정보 수신 처리
+        socket.on('reservation', (data) => {
+            // 받은 예약 정보를 파싱하고 알림을 표시하는 로직을 구현
+            const reservationList = document.getElementById('reservationList');
+            const reservationElement = document.createElement('p');
+            reservationElement.textContent = `출발지: ${data.Start}, 도착지: ${data.End}, 버스 번호: ${data.busNum}`;
+            reservationList.appendChild(reservationElement);
+
+            // 예약 승인 버튼 생성 및 이벤트 처리
+            const approveButton = document.createElement('button');
+            approveButton.textContent = '승인';
+            approveButton.addEventListener('click', () => {
+                approveReservation(data.reservationId); // 예약 승인 요청
+            });
+            reservationElement.appendChild(approveButton);
+        });
+    }
 
     // 예약 승인 요청 처리
     function approveReservation(reservationId) {
@@ -33,7 +43,8 @@
     // 예약 승인 결과 수신 처리
     socket.on('reservationApproved', (reservationId) => {
         console.log('예약이 승인되었습니다:', reservationId);
-// 승인된 예약에 대한 처리 로직을 구현
+
+        // 승인된 예약에 대한 처리 로직을 구현
         const reservationElement = document.getElementById(`reservation-${reservationId}`);
         if (reservationElement) {
             // 예약 완료 메시지를 표시하거나 다른 동작을 수행할 수 있습니다.
@@ -41,5 +52,11 @@
         }
     });
 </script>
+</head>
+<body>
+<h1>Bus Driver Page</h1>
+<div id="reservationList"></div>
+    <button onload="resultData()">데이터 가져 오기</button>
+
 </body>
 </html>

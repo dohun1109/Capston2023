@@ -1,35 +1,7 @@
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
-// const Sequelize = require('sequelize');
 
-// MySQL 데이터베이스 연결 설정
-// const sequelize = new Sequelize('database_name', 'username', 'password', {
-//     host: 'localhost',
-//     dialect: 'mysql'
-// });
-
-// 모델 정의
-// const Reservation = sequelize.define('reservation', {
-//     departure: {
-//         type: Sequelize.STRING,
-//         allowNull: false
-//     },
-//     destination: {
-//         type: Sequelize.STRING,
-//         allowNull: false
-//     },
-//     busNumber: {
-//         type: Sequelize.STRING,
-//         allowNull: false
-//     },
-//     isApproved: {
-//         type: Sequelize.BOOLEAN,
-//         defaultValue: false
-//     }
-// });
-
-// Express 애플리케이션 생성
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
@@ -38,9 +10,10 @@ const io = socketIO(server);
 app.get('/driver', (req, res) => {
     res.sendFile(__dirname + '/busDriverPageTest.html');
 });
-app.get('/busStation',(req,res)=>{
-    res.sendFile(__dirname+'/busStation.html');
-})
+
+app.get('/busStation', (req, res) => {
+    res.sendFile(__dirname + '/busStation.html');
+});
 
 // WebSocket 연결 이벤트 처리
 io.on('connection', (socket) => {
