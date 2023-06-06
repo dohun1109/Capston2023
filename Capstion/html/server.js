@@ -14,6 +14,9 @@ app.get('/driver', (req, res) => {
 app.get('/busStation', (req, res) => {
     res.sendFile(__dirname + '/busStation.html');
 });
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+});
 
 // WebSocket 연결 이벤트 처리
 io.on('connection', (socket) => {
@@ -28,11 +31,11 @@ io.on('connection', (socket) => {
     });
 
     // 예약 승인 처리
-    socket.on('approveReservation', (reservationId) => {
-        console.log('예약 승인:', reservationId);
+    socket.on('approveReservation', (resultData) => {
+        console.log('예약 승인:', resultData);
 
         // 승인된 예약 정보를 해당 클라이언트에게 전송
-        socket.emit('reservationApproved', reservationId);
+        socket.emit('reservationApproved', resultData);
     });
 
     // 연결 해제 이벤트 처리
@@ -40,6 +43,8 @@ io.on('connection', (socket) => {
         console.log('버스 기사 페이지의 클라이언트가 연결을 해제했습니다.');
     });
 });
+
+
 
 // 서버 시작
 const port = 3000;

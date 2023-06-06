@@ -498,6 +498,7 @@
             reservationData.addEventListener('click', function () {
 
                 makeReservation(StartNode, EndNode, RouteNo);
+                reseponse();
             });
 
             cell1.textContent = StartNode;
@@ -512,18 +513,32 @@
 
             tbody.appendChild(row);
 
+
+
+
         }
 
+        const socket = io();
         function makeReservation(StartNode, EndNode, RouteNo) {
-            const socket = io();
             const reservation = {
                 Start: StartNode,
                 End: EndNode,
                 busNum: RouteNo
             };
 
-            socket.emit('reservation',reservation);
+            socket.emit('reservation', reservation);
 
+        }
+
+        function reseponse() {
+            // 예약 승인 결과 수신 처리
+            socket.on('approveReservation', (resultData) => {
+                console.log('예약이 승인되었습니다:', resultData);
+                // 승인된 예약에 대한 처리 로직을 구현
+                // 예약 완료 메시지를 표시하거나 다른 동작을 수행할 수 있습니다.
+                confirm(`출발지 : ${resultData.Start}\n도착지 : ${resultData.End}\n노선 : ${resultData.busNum}\n ${resultData.result} `);
+
+            });
         }
 
 
@@ -578,6 +593,7 @@
             </tr>
             </thead>
             <tbody id="busStationBody"></tbody>
+
 
         </table>
     </div>
