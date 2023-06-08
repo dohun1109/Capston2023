@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bus Driver Page</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="https://www.google.com/speech-api/js/samplepush-bef50/client.js"></script>
+
+
+    <script src="server.js"></script>
+    <script>
+
+        const socket = io();
+
+        function resultData() {
+            // WebSocket 클라이언트 생성
+
+            // 예약 정보 수신 처리
+            socket.on('reservation', (data) => {
+                // 받은 예약 정보를 파싱하고 알림을 표시하는 로직을 구현
+                const reservationList = document.getElementById('reservationList');
+                const reservationElement = document.createElement('p');
+                reservationElement.textContent = `출발지: ${data.Start}, 도착지: ${data.End}, 버스 번호: ${data.busNum}`;
+                reservationList.appendChild(reservationElement);
+                var result = confirm('사용자 : 빵빵이\n' + `출발지: ${data.Start},\n 도착지: ${data.End},\n 버스 번호: ${data.busNum} 예약하였습니다. 승인하시겠습니까?`);
+                if (result) {
+                    const resultData = {
+                        Start: data.Start,
+                        End: data.End,
+                        busNum: data.busNum,
+                        result: "승인 완료"
+                    };
+                    console.log('승인 요청:', resultData);
+
+                    // 예약 승인 요청을 서버로 전송
+                    socket.emit('approveReservation', resultData);
+                    alert("승인이 완료되었습니다!");
+                    const textToSpeak = `교통약자가 ${data.Start} 정류장에서 탑승 예정입니다. 탑승객분들은 좌석을 비켜주세요!`;
+
+// SpeechSynthesisUtterance 객체를 생성하고 텍스트를 설정합니다.
+                    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+
+// 음성 합성을 위한 SpeechSynthesis 객체를 가져옵니다.
+                    const synth = window.speechSynthesis;
+
+// SpeechSynthesisUtterance를 읽도록 지시합니다.
+                    synth.speak(utterance);
+                    // 예약 승인 요청
+                } else {
+                    const resultData = {
+                        Start: data.Start,
+                        End: data.End,
+                        busNum: data.busNum,
+                        result: "승인 거부"
+                    };
+                    console.log('승인 거부:', resultData);
+
+                    // 예약 승인 요청을 서버로 전송
+                    socket.emit('approveReservation', resultData);// 예약 승인 요청
+                    alert("승인이 거부되었습니다!");
+                }
+
+            });
+        }
+
+        // 예약 승인 요청 처리
+
+
+    </script>
+</head>
+<body>
+<h1>Bus Driver Page</h1>
+<button onclick="resultData()">버스 운행 시작</button>
+<div id="reservationList"></div>
+
+</body>
+</html>
