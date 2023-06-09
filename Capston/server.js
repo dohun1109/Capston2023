@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
+
 // WebSocket 연결 이벤트 처리
 io.on('connection', (socket) => {
     console.log('버스 기사 페이지에 새로운 클라이언트가 연결되었습니다.');
