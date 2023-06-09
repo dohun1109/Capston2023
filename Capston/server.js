@@ -8,14 +8,14 @@ const io = socketIO(server);
 
 // 버스 기사 페이지 라우트
 app.get('/driver', (req, res) => {
-    res.sendFile(__dirname + '/busDriverPageTest.html');
+    res.sendFile( '/busDriverPageTest.html');
 });
 
 app.get('/busStation', (req, res) => {
-    res.sendFile(__dirname + '/busStation.html');
+    res.sendFile('/busStation.html');
 });
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile( '/index.html');
 });
 
 
@@ -49,6 +49,6 @@ io.on('connection', (socket) => {
 
 // 서버 시작
 const port = 3000;
-server.listen(port,'0.0.0.0', () => {
+server.listen(port, () => {
     console.log(`서버가 ${port}번 포트에서 시작되었습니다.`);
 });
