@@ -7,15 +7,19 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 // 버스 기사 페이지 라우트
+const path = require('path');
+
+// ...
+
 app.get('/driver', (req, res) => {
-    res.sendFile( '/busDriverPageTest.html');
+    res.sendFile(path.join(__dirname, 'busDriverPageTest.html'));
 });
 
 app.get('/busStation', (req, res) => {
-    res.sendFile('/busStation.html');
+    res.sendFile(path.join(__dirname, 'busStation.html'));
 });
 app.get('/', (req, res) => {
-    res.sendFile( '/index.html');
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 
