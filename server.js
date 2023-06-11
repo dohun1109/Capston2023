@@ -9,6 +9,15 @@ const io = socketIO(server);
 // 버스 기사 페이지 라우트
 const path = require('path');
 
+// "public" 디렉토리에서 정적 파일 서빙
+
+// 정적 파일 경로 설정
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+
+
 // ...
 
 app.get('/driver', (req, res) => {
@@ -19,7 +28,7 @@ app.get('/busStation', (req, res) => {
     res.sendFile(path.join(__dirname, 'busStation.html'));
 });
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'main.html'));
 });
 
 
