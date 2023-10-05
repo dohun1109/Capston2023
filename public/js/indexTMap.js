@@ -16,6 +16,8 @@ function showPosition(position) {
     var longitude = position.coords.longitude;
 
     var container = document.getElementById('map');
+    container.style.width = '25em';
+    container.style.height = '25em';
     var options = {
         center: new kakao.maps.LatLng(latitude, longitude),
         level: 2
