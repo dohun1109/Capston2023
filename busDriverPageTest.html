@@ -78,7 +78,7 @@
             const reservationElement = document.createElement('p');
             reservationElement.textContent = `출발지: ${data.Start}, 도착지: ${data.End}, 버스 번호: ${data.busNum}`;
             reservationList.appendChild(reservationElement);
-            var result = confirm('사용자 : 빵빵이\n' + `출발지: ${data.Start},\n 도착지: ${data.End},\n 버스 번호: ${data.busNum} 예약하였습니다. 승인하시겠습니까?`);
+            var result = confirm(`출발지: ${data.Start},\n 도착지: ${data.End},\n 버스 번호: ${data.busNum} 예약하였습니다. 승인하시겠습니까?`);
             if (result) {
                 const resultData = {
                     Start: data.Start,
