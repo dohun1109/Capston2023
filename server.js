@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
 
 // WebSocket 연결 이벤트 처리
 io.on('connection', (socket) => {
-    console.log('버스 기사 페이지에 새로운 클라이언트가 연결되었습니다.');
+    console.log('예약 정보 전송');
 
     // 예약 정보 전송
     socket.on('reservation', (data) => {
@@ -57,7 +57,7 @@ io.on('connection', (socket) => {
 
     // 연결 해제 이벤트 처리
     socket.on('disconnect', () => {
-        console.log('버스 기사 페이지의 클라이언트가 연결을 해제했습니다.');
+        console.log('예약정보 확인');
     });
 });
 

@@ -84,6 +84,8 @@
 
         function handleData(parseData, latitude, longitude) {
             var tbody = document.getElementById('busStationBody');
+            document.getElementById('caption_txt').innerText='< 500m 내 정류장 정보 >';
+
 
             if (Array.isArray(parseData.response.body.items.item)) {
                 var items = parseData.response.body.items.item;
@@ -108,7 +110,7 @@
                         var Item1 = item;
                         var nodenm1 = item.nodenm;
                         var distance = item.distance.toFixed(2) + 'm';
-                        var nodeid1 = item.nodeid;
+                        // var nodeid1 = item.nodeid;
                         const stationNameLink = document.createElement('button');
 
                         stationNameLink.style.backgroundColor = "transparent";
@@ -116,13 +118,14 @@
                         var row = document.createElement('tr');
                         var cell1 = document.createElement('td');
                         var cell2 = document.createElement('td');
-                        var cell3 = document.createElement('td');
+                        // var cell3 = document.createElement('td');
                         var cell4 = document.createElement('td');
 
 
                         cell1.style.backgroundColor = "skyblue";
                         cell1.style.fontWeight = "bold"; // 글씨를 굵게 설정
                         cell1.style.color = "black"; // 글씨 색상을 검은색으로 설정
+
 
 
                         stationNameLink.textContent = "선택";
@@ -133,15 +136,16 @@
                             lowbusStation(NodeId);
                         });
 
-
                         cell1.textContent = nodenm1;
                         cell2.textContent = distance;
-                        cell3.textContent = nodeid1;
+                        // cell3.textContent = nodeid1;
                         cell4.appendChild(stationNameLink);
+
+
 
                         row.appendChild(cell1);
                         row.appendChild(cell2);
-                        row.appendChild(cell3);
+                        // row.appendChild(cell3);
                         row.appendChild(cell4);
                         tbody.appendChild(row);
                     }
@@ -175,21 +179,38 @@
 
         function lowbusStation(NodeId) {
             document.getElementById('busStationBody').innerHTML = '';
-            document.getElementById('meter').textContent = '버스 유형';
-            document.getElementById('nodeId').textContent = '남은 정류장수';
+
+            document.getElementById('caption_txt').innerText='< 저상버스 도착 정보 >';
+
+
+            document.getElementById('tableHead').innerHTML = '';
             var thead = document.getElementById('tableHead');
 
-            var th = document.getElementById('selectNm');
-            th.textContent = "노선번호";
+
+            var th = document.createElement('th');
+            th.textContent = "정류소 명";
             thead.appendChild(th);
 
+            var th1 = document.createElement('th');
+            th1.textContent = "버스 유형";
+            thead.appendChild(th1);
+
+
             var th2 = document.createElement('th');
-            th2.textContent = "도착 예정 시간";
+            th2.textContent = "남은 정류장수";
             thead.appendChild(th2);
 
             var th3 = document.createElement('th');
-            th3.textContent = "선택하기";
+            th3.textContent = "노선번호";
             thead.appendChild(th3);
+
+            var th4 = document.createElement('th');
+            th4.textContent = "도착 예정 시간";
+            thead.appendChild(th4);
+
+            var th5 = document.createElement('th');
+            th5.textContent = "선택하기";
+            thead.appendChild(th5);
 
 
             var nodeId = NodeId;
@@ -309,11 +330,14 @@
 
         //---------------------------------저상버스 도착 정보 조회 End---------------------------------------
 
-        //---------------------------------노선 경로 도착지 리스트  조회 End---------------------------------------
+        //---------------------------------노선 경로 도착지 리스트 조회 start----------------------------------
         function endStation(routeId, nodeNm, routeno) {
             document.getElementById('busStationBody').innerHTML = '';
             document.getElementById('busStationHead').innerHTML = '';
 
+            document.getElementById('caption_txt').innerText='< 하차지 선택 >';
+           
+            
 
             var thead = document.getElementById('busStationHead');
             var ttr = document.createElement('tr');
@@ -451,6 +475,8 @@
         function resultPage(startNode, endNode, routeNo) {
             document.getElementById('busStationBody').innerHTML = '';
             document.getElementById('busStationHead').innerHTML = '';
+
+            document.getElementById('caption_txt').innerText='< 예약 선택 정보 >';
 
             var StartNode = startNode;
             var EndNode = endNode;
@@ -715,11 +741,15 @@
 
     <!-- 웹앱의 본문 내용 -->
     <table id="busStationTable">
+        <caption>
+            <h1 id="caption_txt">
+
+            </h1>
+        </caption>
         <thead id="busStationHead">
         <tr id="tableHead">
             <th id='nodenm'>정류소 명</th>
             <th id='meter'>거리</th>
-            <th id='nodeId'>nodeid</th>
             <th id="selectNm">정류소 선택</th>
         </tr>
         </thead>
