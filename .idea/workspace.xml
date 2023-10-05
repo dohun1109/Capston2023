@@ -7,6 +7,7 @@
     <list default="true" id="190c6a7b-8d7a-4323-8229-99bcf38dd085" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/busDriverPageTest.html" beforeDir="false" afterPath="$PROJECT_DIR$/busDriverPageTest.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/indexTMap.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/indexTMap.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +64,7 @@
       <workItem from="1696519355215" duration="332000" />
       <workItem from="1696529219342" duration="2005000" />
       <workItem from="1696531660605" duration="42000" />
-      <workItem from="1696548427158" duration="161000" />
+      <workItem from="1696548427158" duration="621000" />
     </task>
     <servers />
   </component>
